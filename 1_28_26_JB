@@ -3,7 +3,7 @@
 int melody[] = {
 
 //let it go, let it go
-NOTE_A4, REST, NOTE_B4, REST, NOTE_C5, REST, NOTE_G4, REST, NOTE_G4, REST, NOTE_D5,
+NOTE_A4, REST, NOTE_B4, REST, NOTE_C5, REST, NOTE_G4, REST, NOTE_G4, REST, NOTE_D5, REST,
 //cant hold it back anymore
 NOTE_C5, REST, NOTE_A4, REST, NOTE_A4, REST, NOTE_A4, REST, NOTE_A4, NOTE_B4, NOTE_C5, REST,
 //let it go let it go
@@ -135,6 +135,27 @@ END
 
 int noteDurations[] = {
 
+//LET IT GO
+
+//LET IT GO, LET IT GO
+4, 2, 4, 2, 8, 2, 4, 2, 4, 2, 8, 2,
+//cant hold it back anymore
+4, 2, 4, 2, 4, 2, 4, 2, 4, 4, 8, 2,
+//let it go let it go
+4, 2, 4, 2, 8, 2, 4, 2, 4, 2, 8, 8, 2,
+//turn away and slam the door
+8, 2, 4, 2, 4, 2, 4, 2, 4, 4, 2, 2, 4, 2, 4, 8, 2,
+//i dont care
+8, 2, 12, 2, 16, 2,
+//what theyre going to say
+12, 2, 8, 2, 12, 2, 8, 2, 16, 2,
+//let the storm rage on
+4, 2, 4, 2, 4, 2, 8, 2, 12, 2,
+//the cold never bothered me anyway
+4, 2, 4, 2, 2, 2, 4, 4, 6, 2, 2, 2, 8, 2,
+
+
+//HAKUNAMATATA
 
 //A MA ZI NG GRACE
 5, 1, 3, 1, 1, 1, 3, 1, 5, 2, 
