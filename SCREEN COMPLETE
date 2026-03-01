@@ -1,0 +1,241 @@
+
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+//adress and dimensions
+//20x4 LCD, uses (0x27, 20, 4)
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+//may need to replace serial adress
+
+//button
+const int buttonOne = 2;
+int oneState = 0;
+const int buttonTwo = 4;
+int twoState = 0;
+const int buttonThr = 6;
+int thrState = 0;
+const int buttonFr = 5;
+int frState = 0;
+const int buttonFv = 7;
+int fvState = 0;
+const int buttonSix = 9;
+int sixState = 0;
+
+void setup() {
+  // put your setup code here, to run once:
+  lcd.init();
+  lcd.backlight();
+  pinMode(buttonOne, INPUT_PULLUP);
+  pinMode(buttonTwo, INPUT_PULLUP);
+  pinMode(buttonThr, INPUT_PULLUP);
+  pinMode(buttonFr, INPUT_PULLUP);
+  pinMode(buttonFv, INPUT_PULLUP);
+  pinMode(buttonSix, INPUT_PULLUP);
+}
+
+void loop() {
+
+oneState = digitalRead(buttonOne);
+twoState = digitalRead(buttonTwo);
+thrState = digitalRead(buttonThr);
+frState = digitalRead(buttonFr);
+fvState = digitalRead(buttonFv);
+sixState = digitalRead(buttonSix);
+
+
+if (oneState == LOW){
+
+
+if (frState == LOW){
+ //christmas screen
+  lcd.setCursor(0,0);
+  lcd.print("Jingle Bells");
+
+  delay(150);
+  lcd.clear();
+  delay(100);
+  lcd.setCursor(0,0);
+
+
+}else{
+
+if (fvState == LOW){
+ //christmas screen
+  lcd.setCursor(0,0);
+  lcd.print("Silent Night");
+
+  delay(150);
+  lcd.clear();
+  delay(100);
+  lcd.setCursor(0,0);
+
+
+}else{
+
+if (sixState == LOW){
+ //christmas screen
+  lcd.setCursor(0,0);
+  lcd.print("We Wish You a Merry Christmas");
+
+  delay(150);
+  lcd.clear();
+  delay(100);
+  lcd.setCursor(0,0);
+
+
+}else{
+
+
+  //christmas screen
+  lcd.setCursor(0,0);
+  lcd.print("Christmas:");
+  lcd.setCursor(0,1);
+  lcd.print("1. Jingle Bells");
+  lcd.setCursor(0,2);
+  lcd.print("2. Silent Nt. 3. ???");
+  delay(150);
+  lcd.clear();
+  delay(100);
+  lcd.setCursor(0,0);
+
+
+} 
+}
+} 
+
+ 
+} else {
+  
+  
+  if (twoState == LOW)
+  {
+    
+    if (frState == LOW){
+ //christmas screen
+  lcd.setCursor(0,0);
+  lcd.print("This Little Light of Mine");
+
+  delay(150);
+  lcd.clear();
+  delay(100);
+  lcd.setCursor(0,0);
+
+
+}else{
+
+if (fvState == LOW){
+ //christmas screen
+  lcd.setCursor(0,0);
+  lcd.print("Oceans");
+
+  delay(150);
+  lcd.clear();
+  delay(100);
+  lcd.setCursor(0,0);
+
+
+}else{
+
+if (sixState == LOW){
+ //christmas screen
+  lcd.setCursor(0,0);
+  lcd.print("Amazing Grace");
+
+  delay(150);
+  lcd.clear();
+  delay(100);
+  lcd.setCursor(0,0);
+
+
+}else{
+   
+   //Christian Screen
+   lcd.setCursor(0,0);
+   lcd.print("Christan/Worship:");
+   lcd.setCursor(0,1);
+   lcd.print("1. This Little Light");
+   lcd.setCursor(0,2);
+   lcd.print("2. Oceans  3. ???");
+   delay(150);
+   lcd.clear();
+   delay(100);
+   lcd.setCursor(0,0);
+   }
+            
+}
+}
+    
+  }else{
+
+    if (thrState == LOW){
+      
+if (frState == LOW){
+ //christmas screen
+  lcd.setCursor(0,0);
+  lcd.print("Hakuna Matata");
+
+  delay(150);
+  lcd.clear();
+  delay(100);
+  lcd.setCursor(0,0);
+
+
+}else{
+
+if (fvState == LOW){
+ //christmas screen
+  lcd.setCursor(0,0);
+  lcd.print("Let it Go");
+
+  delay(150);
+  lcd.clear();
+  delay(100);
+  lcd.setCursor(0,0);
+
+
+}else{
+
+if (sixState == LOW){
+ //christmas screen
+  lcd.setCursor(0,0);
+  lcd.print("Be Our Guest");
+
+  delay(150);
+  lcd.clear();
+  delay(100);
+  lcd.setCursor(0,0);
+
+
+}else{
+      //disney screen
+       lcd.setCursor(0,0);
+       lcd.print("Disney:");
+       lcd.setCursor(0,1);
+       lcd.print("1. Hakuna Matata");
+       lcd.setCursor(0,2);
+        lcd.print("2. Let It Go  3. ???");
+       delay(150);
+        lcd.clear();
+       delay(100);
+       lcd.setCursor(0,0);
+}
+}
+}
+
+    }else{
+
+      //general screen
+      lcd.setCursor(0,0);
+      lcd.print("Pick a Genre:");
+      lcd.setCursor(0,1);
+      lcd.print("1. Christmas");
+      lcd.setCursor(0,2);
+      lcd.print("2. Worship 3. Disney");
+      delay(150);
+      lcd.clear();
+      delay(10);
+      lcd.setCursor(0,0);
+    }
+  }
+}
+}
