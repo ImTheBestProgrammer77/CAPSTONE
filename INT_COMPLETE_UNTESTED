@@ -1,0 +1,724 @@
+
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+#include "pitches.h"
+
+//adress and dimensions
+//20x4 LCD, uses (0x27, 20, 4)
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+//may need to replace serial address
+
+int jb[] = {
+//JINGLE BELLS
+NOTE_E4, REST, NOTE_E4, REST, NOTE_E4, REST,
+//JINGLE BELLS
+NOTE_E4, REST, NOTE_E4, REST, NOTE_E4, REST,
+//JINGLE ALL THE WAY
+NOTE_E4, REST, NOTE_G4, REST, NOTE_C4, REST, NOTE_D4, REST, NOTE_E4, REST,
+//OH WHAT FUN IT IS
+NOTE_F4, REST, NOTE_F4, REST, NOTE_F4, REST, NOTE_F4, REST, NOTE_F4, REST,
+//TO RIDE IN A
+NOTE_E4, REST, NOTE_E4, REST, NOTE_E4, REST, NOTE_E4, REST,
+//ONE HORSE OPEN SLEIGH
+NOTE_E4, REST, NOTE_D4, REST, NOTE_D4, REST, NOTE_E4, REST, NOTE_D4, NOTE_G4, REST
+END
+
+};
+
+int jbDur[] = {
+
+  //JINGLE BELLS
+8, 2, 8, 2, 10, 2,
+//JINGLE BELLS
+8, 2, 8, 2, 10, 2,
+//JINGLE ALL THE WAY
+8, 2, 8, 2, 8, 2, 8, 2, 10, 2,
+//OH WHAT FUN IT IS
+8, 1, 8, 1, 8, 1, 8, 1, 8, 1,
+//TO RIDE IN A
+8, 1, 8, 1, 4, 1, 4, 1,
+//ONE HORSE OPEN SLEIGH
+8, 1, 8, 1, 8, 1, 8, 2, 8, 10, 2
+};
+
+int sn[] = {
+//SILENT NIGHT
+NOTE_G5, NOTE_A5, NOTE_G5, REST, NOTE_E5, REST,
+//HOLY NIGHT
+NOTE_G5, NOTE_A5, NOTE_G5, REST, NOTE_E5, REST,
+//ALL IS CALM
+NOTE_D6, REST, NOTE_D6, REST, NOTE_B5, REST,
+//ALL IS BRIGHT
+NOTE_C6, REST, NOTE_C6, REST, NOTE_G5, REST,
+//ROUND YON VIRGIN
+NOTE_A5, REST, NOTE_A5, REST, NOTE_C6, NOTE_B5, NOTE_A5, REST,
+//MOTHER AND CHILD
+NOTE_G5, NOTE_A5, REST, NOTE_G5, REST, NOTE_E5, REST,
+//HOLY INFANT
+NOTE_A5, REST, NOTE_A5, REST, NOTE_C6, NOTE_B5, NOTE_A5, REST,
+//SO TENDER AND MILD
+NOTE_G5, NOTE_A5, REST, NOTE_G5, REST, NOTE_E5, REST,
+//SLEEP IN HEAVENLY PEACE
+NOTE_D6, REST, NOTE_D6, REST, NOTE_F6, NOTE_D6, NOTE_B5, REST, NOTE_C6, NOTE_E6, REST,
+//SLEEP IN HEAVENLY PEACE
+NOTE_C6, NOTE_G5, REST, NOTE_E5, REST, NOTE_G5, NOTE_F5, NOTE_D5, REST, NOTE_C5, REST
+END
+
+};
+
+int snDur[] = {
+
+ //SILENT NIGHT
+10, 4, 8, 2, 10, 2,
+//HOLY NIGHT
+10, 4, 8, 2, 10, 2,
+//ALL IS CALM
+8, 2, 8, 2, 10, 2,
+//ALL IS BRIGHT
+8, 2, 8, 2, 10, 2,
+//ROUND YON VIRGIN
+10, 2, 8, 2, 8, 6, 4, 2,
+//MOTHER AND CHILD
+8, 4, 2, 8, 2, 10, 2,
+//HOLY INFANT
+10, 2, 8, 2, 8, 6, 4, 2,
+//SO TENDER AND MILD
+8, 4, 2, 8, 2, 10, 2,
+//SLEEP IN HEAVENLY PEACE
+12, 2, 8, 2, 10, 8, 8, 2, 10, 8, 2,
+//SLEEP IN HEAVENLY PEACE
+8, 6, 2, 6, 2, 10, 8, 4, 2, 12, 50
+
+
+};
+
+
+int wwu[] = {
+
+
+//WE WISH U A MERRY XMAS WE
+NOTE_G4, REST, NOTE_C5, REST, NOTE_C5, REST, NOTE_D5, REST, NOTE_C5, REST, NOTE_B4, REST, NOTE_A4, REST, NOTE_A4, REST, NOTE_A4, REST,
+//WISH YOU A MERRY XMAS WE
+NOTE_D5, REST, NOTE_D5, REST, NOTE_E5, REST, NOTE_D5, REST, NOTE_C5, REST, NOTE_B4, REST, NOTE_G4, REST, NOTE_G4, REST,
+//WISH YUOU A MERRY XMAS AND A 
+NOTE_E5, REST, NOTE_E5, REST, NOTE_F5, REST, NOTE_E5, REST, NOTE_D5, REST, NOTE_C5, REST, NOTE_A4, REST, NOTE_G4, REST, NOTE_G4, REST,
+//HAPPY NEW YEAR
+NOTE_A4, REST, NOTE_D5, REST, NOTE_B4, REST, NOTE_C5, REST
+END
+
+};
+
+int wwuDur[] = {
+
+ 
+//WE WISH U A MERRY XMAS WE
+4, 2, 8, 2, 4, 2, 4, 2, 4, 2, 4, 2, 8, 2, 8, 4, 8, 2,
+//WISH U A MERRY XMAS WE
+8, 2, 4, 2, 4, 2, 4, 2, 4, 2, 8, 2, 8, 4, 8, 2,
+//WISH U A MERRY XMAS AND A 
+8, 2, 4, 2, 4, 2, 4, 2, 4, 2, 8, 2, 8, 2, 8, 1, 4, 2,
+//HAPPY NEW YEAR
+8, 2, 8, 2, 10, 2, 10, 20,
+};
+//---------------------------------------------------
+int o[] = {
+//oceans
+
+//YOU CALL ME OUT UPON THE WATERS
+NOTE_A4, REST, NOTE_B4, REST, NOTE_A4, REST, NOTE_B4, REST, NOTE_A4, REST, NOTE_CS5, REST, NOTE_D5, REST, NOTE_D5, REST, NOTE_A4, REST,
+//THE GREAT UNKNOWN
+NOTE_A4, REST, NOTE_D5, REST, NOTE_D5, REST, NOTE_CS5, REST,
+//WHERE FEET MAY FAIL
+NOTE_A4, REST, NOTE_CS5, REST, NOTE_D5, REST, NOTE_B4, REST,
+//AND THERE I FIND YOU IN THE MYSTERY
+NOTE_A4, REST, NOTE_B4, REST, NOTE_A4, REST, NOTE_B4, REST, NOTE_A4, REST, NOTE_CS5, REST, NOTE_D5, REST, NOTE_D5, REST, NOTE_A4, REST,
+//IN OCEANS DEEP
+NOTE_B4, REST, NOTE_D5, REST, NOTE_E5, REST, NOTE_E5, REST,
+//MY FAITH WILL STAND
+NOTE_B4, REST, NOTE_FS5, REST, NOTE_E5, REST, NOTE_D5, REST
+END
+
+};
+
+int oDur[] = {
+
+
+//YOU CALL ME OUT UPON THE WATERS
+8, 2, 8, 4, 8, 2, 8, 4, 12, 2, 12, 2, 12, 2, 20, 2, 10, 4,
+//THE GREAT UNKNOWN
+8, 2, 8, 4, 10, 2, 10, 4,
+//WHERE FEET MAY FAIL
+8, 2, 8, 4, 10, 2, 10, 4,
+//AND THERE I FIND YOU IN THE MYSTERY
+8, 2, 8, 4, 8, 2, 8, 4, 12, 2, 12, 2, 12, 2, 20, 2, 10, 4,
+//IN OCEANS DEEP
+8, 2, 8, 4, 10, 2, 10, 4,
+//MY FAITH WILL STAND
+8, 2, 8, 4, 10, 2, 10, 100,
+
+
+};
+
+int tll[] = {
+//this little light of mine
+NOTE_D5, REST, NOTE_D5, REST, NOTE_D5, REST, NOTE_D5, REST, NOTE_E5, REST, NOTE_G5,  NOTE_G5, REST,
+//IM GONNA LET IT SHINE
+NOTE_B5, REST, NOTE_B5, REST, NOTE_B5, REST, NOTE_B5, REST, NOTE_A5, REST, NOTE_G5,  NOTE_G5, REST,
+//THIS LIGHT OF MINE
+NOTE_E5, REST, NOTE_E5, REST, NOTE_E5, REST, NOTE_E5, REST, NOTE_FS5, REST,NOTE_G5,  NOTE_G5, REST,
+// IM GONNA LET IT SHINE
+NOTE_G5, REST, NOTE_G5, REST, NOTE_G5, REST, NOTE_G5, REST, NOTE_E5, REST, NOTE_D5,  NOTE_D5, REST,
+//THIS LITTLE LIGHT OF MINE
+NOTE_D5, REST, NOTE_D5, REST, NOTE_D5, REST, NOTE_D5, REST, NOTE_E5, REST, NOTE_G5,  NOTE_G5, REST,
+//IM GONNA LET IT SHINE
+NOTE_B5, REST, NOTE_B5, REST, NOTE_B5, REST, NOTE_B5, REST, NOTE_A5, REST, NOTE_G5,  NOTE_G5, REST
+END
+
+};
+
+int tllDur[] = {
+
+  //this little light of mine
+4, 2, 4, 1, 4, 2, 4, 2, 4, 2, 4, 16, 2,
+//IM GONNA LET IT SHINE
+4, 2, 4, 1, 4, 2, 4, 2, 4, 2, 4,16, 2,
+//THIS LIGHT OF MINE
+4, 2, 4, 1, 4, 2, 4, 2, 4, 2, 4,  16, 2,
+// IM GONNA LET IT SHINE
+4, 2, 4, 1, 4, 2, 4, 2, 4, 2, 4,  16, 2,
+//THIS LITTLE LIGHT OF MINE
+4, 2, 4, 1, 4, 2, 4, 2, 4, 2, 4, 16, 2,
+//IM GONNA LET IT SHINE
+4, 2, 4, 1, 4, 2, 4, 2, 4, 2, 4, 16, 100,
+
+};
+
+int ag[] = {
+//A MA ZI NG GRACE
+NOTE_A4, REST, NOTE_C4, REST, NOTE_E4, REST, NOTE_C4, REST, NOTE_E4, REST,
+//HOW SWEET THE SOUND
+NOTE_D4, REST, NOTE_C4, REST, NOTE_A4, NOTE_G4, REST,
+//THAT SAVED A A WRETCH LIKE ME
+NOTE_G4, REST, NOTE_C4, REST, NOTE_E4, REST, NOTE_C4, REST, NOTE_E4, REST, NOTE_D4, REST, NOTE_G4, REST,
+//I ONCE E WA S LOST
+NOTE_E4, REST, NOTE_G4, REST, NOTE_E4, REST, NOTE_G4, REST, NOTE_E4, REST, NOTE_C4, REST,
+//BUT NOW I A AM FOUND
+NOTE_G4, REST, NOTE_A4, REST, NOTE_C4, REST, NOTE_C4, REST, NOTE_A4, REST, NOTE_G4, REST,
+//WAS BLIND BU T NOW I SEE
+NOTE_G4, REST, NOTE_C4, REST, NOTE_E4, REST, NOTE_C4, REST, NOTE_E4, REST, NOTE_D4, REST, NOTE_C4, REST
+
+END
+
+};
+
+int agDur[] = {
+
+ //A MA ZI NG GRACE
+5, 1, 3, 1, 1, 1, 3, 1, 5, 2, 
+//HOW SWEET THE SOUND
+2, 1, 3, 1, 4, 1, 5, 2,
+//THAT SAVED A A WRETCH LIKE ME
+5, 1, 3, 1, 1, 1, 3, 1, 1, 1, 3, 1, 5, 2,
+//I ONCE E WA S LOST
+3, 1, 1, 1, 3, 1, 1, 1, 3, 1, 5, 2, 
+//BUT NOW I A AM FOUND
+5, 1, 4, 1, 2, 1, 2, 1, 4, 1, 5, 2,
+//WAS BLIND BU T NOW I SEE
+5, 1, 3, 1, 1, 1, 3, 1, 1, 1, 2, 1, 3, 100,
+
+
+
+};
+//----------------------------------------------------------
+
+int hm[] = {
+
+
+// HAKUNA MATATA
+NOTE_D5, REST, NOTE_DS5, REST, NOTE_D5, REST, NOTE_DS5, REST, NOTE_D5, REST, NOTE_C5, REST,
+//WHAT A WONDERFUL PHRASE
+NOTE_A4, REST, NOTE_C5, REST, NOTE_C5, NOTE_A4, NOTE_C5, REST, NOTE_D5, REST,
+//HAKUNA MATATA
+NOTE_D5, REST, NOTE_DS5, REST, NOTE_D5, REST, NOTE_DS5, REST, NOTE_D5, REST, NOTE_C5, REST,
+//AINT NO PASING CRAZE
+NOTE_A4, REST, NOTE_C5, REST, NOTE_DS5, NOTE_D5, REST, NOTE_D5, REST
+END
+
+};
+
+int hmDur[] = {
+
+ 
+// HAKUNA MATATA
+8, 2, 8, 2, 8, 2, 8, 2, 4, 2, 4, 4,
+//WHAT A WONDERFUL PHRASE
+8, 2, 8, 2, 8, 6, 6, 2, 8, 2,
+//HAKUNA MATATA
+8, 2, 8, 2, 8, 2, 8, 2, 4, 2, 4, 4,
+//AINT NO PASING CRAZE
+8, 2, 8, 2, 8, 6, 6, 2, 10, 100,
+//ADD MORE IF TIME
+
+};
+
+int lit[] = {
+//let it go, let it go
+NOTE_A4, REST, NOTE_B4, REST, NOTE_C5, REST, NOTE_G4, REST, NOTE_G4, REST, NOTE_D5, REST,
+//cant hold it back anymore
+NOTE_C5, REST, NOTE_A4, REST, NOTE_A4, REST, NOTE_A4, REST, NOTE_A4, NOTE_B4, NOTE_C5, REST,
+//let it go let it go
+NOTE_A4, REST, NOTE_B4, REST, NOTE_C5, REST, NOTE_G4, REST, NOTE_E5, REST, NOTE_E5, NOTE_D5, REST,
+//turn away and slam the door
+NOTE_C5, REST, NOTE_D5, REST, NOTE_E5, REST, NOTE_E5, REST, NOTE_F5, NOTE_E5, REST, NOTE_D5, NOTE_C5, REST, NOTE_D5, NOTE_C5, REST,
+//i dont care
+NOTE_G5, REST, NOTE_E5, REST, NOTE_D5, REST,
+//what theyre going to say
+NOTE_C5, REST, NOTE_C5, REST, NOTE_G5, REST, NOTE_E5, REST, NOTE_C5, REST,
+//let the storm rage on
+NOTE_C5, REST, NOTE_C5, REST, NOTE_B4, REST, NOTE_G4, REST, NOTE_G4, REST,
+//the cold never bothered me anyway
+NOTE_F4, REST, NOTE_F4, REST, NOTE_F4, NOTE_E4, NOTE_F4, NOTE_E4, NOTE_F4, REST, NOTE_F4, NOTE_E4, NOTE_C4, REST
+END
+
+};
+
+int litDur[] = {
+
+
+//LET IT GO, LET IT GO
+4, 2, 4, 2, 8, 2, 4, 2, 4, 2, 8, 2,
+//cant hold it back anymore
+4, 2, 4, 2, 4, 2, 4, 2, 4, 4, 8, 2,
+//let it go let it go
+4, 2, 4, 2, 8, 2, 4, 2, 4, 2, 8, 8, 2,
+//turn away and slam the door
+8, 2, 4, 2, 4, 2, 4, 2, 4, 4, 2, 2, 4, 2, 4, 8, 2,
+//i dont care
+8, 2, 12, 2, 16, 2,
+//what theyre going to say
+12, 2, 8, 2, 12, 2, 8, 2, 16, 2,
+//let the storm rage on
+4, 2, 4, 2, 4, 2, 8, 2, 12, 2,
+//the cold never bothered me anyway
+4, 2, 4, 2, 2, 2, 4, 4, 6, 2, 2, 2, 8, 100,
+
+
+};
+int bog[] = {
+//be our guest
+NOTE_B5, REST, NOTE_D5, REST, NOTE_G5, REST,
+//be our guest
+NOTE_B5, REST, NOTE_D5, REST, NOTE_FS5, REST,
+//put our service
+NOTE_B5, REST, NOTE_D5, REST, NOTE_E5, NOTE_D5, REST,
+//TO THE TEST
+NOTE_D5, REST, NOTE_B5, REST, NOTE_G4, REST, NOTE_D4, REST,
+//tie a napkin 
+NOTE_CS5, REST, NOTE_D5, REST, NOTE_E5, NOTE_D5, REST,
+//round your neck
+NOTE_CS5, REST, NOTE_D5, REST, NOTE_E5, REST,
+//cherie and we provide the rest
+NOTE_D5, NOTE_CS5, REST, NOTE_D5, REST, NOTE_E5, REST, NOTE_D5, NOTE_C5, REST, NOTE_A5, REST, NOTE_FS4, REST
+END
+
+};
+
+int bogDur[] = {
+
+
+//YOU CALL ME OUT UPON THE WATERS
+8, 2, 8, 4, 8, 2, 8, 4, 12, 2, 12, 2, 12, 2, 20, 2, 10, 4,
+//THE GREAT UNKNOWN
+8, 2, 8, 4, 10, 2, 10, 4,
+//WHERE FEET MAY FAIL
+8, 2, 8, 4, 10, 2, 10, 4,
+//AND THERE I FIND YOU IN THE MYSTERY
+8, 2, 8, 4, 8, 2, 8, 4, 12, 2, 12, 2, 12, 2, 20, 2, 10, 4,
+//IN OCEANS DEEP
+8, 2, 8, 4, 10, 2, 10, 4,
+//MY FAITH WILL STAND
+8, 2, 8, 4, 10, 2, 10, 100,
+
+
+};
+//---------------------------------------------------------
+int jbs = 40; // higher = slower
+int sns = 105;
+int wwus = 57;
+int os =84;
+int tlls =55;
+int ags=116;
+int hms=65;
+int lits=78;
+int bogs=58;
+//-------------------------------------------------------
+
+//button
+const int buttonOne = 2;
+int oneState = 0;
+const int buttonTwo = 4;
+int twoState = 0;
+const int buttonThr = 6;
+int thrState = 0;
+const int buttonFr = 5;
+int frState = 0;
+const int buttonFv = 7;
+int fvState = 0;
+const int buttonSix = 9;
+int sixState = 0;
+
+
+
+void setup() {
+  // put your setup code here, to run once:
+  lcd.init();
+  lcd.backlight();
+  pinMode(buttonOne, INPUT_PULLUP);
+  pinMode(buttonTwo, INPUT_PULLUP);
+  pinMode(buttonThr, INPUT_PULLUP);
+  pinMode(buttonFr, INPUT_PULLUP);
+  pinMode(buttonFv, INPUT_PULLUP);
+  pinMode(buttonSix, INPUT_PULLUP);
+}
+
+void loop() {
+
+oneState = digitalRead(buttonOne);
+twoState = digitalRead(buttonTwo);
+thrState = digitalRead(buttonThr);
+frState = digitalRead(buttonFr);
+fvState = digitalRead(buttonFv);
+sixState = digitalRead(buttonSix);
+
+
+if (oneState == LOW){
+
+
+if (frState == LOW){
+ //christmas screen
+  lcd.setCursor(0,0);
+  lcd.print("Jingle Bells");
+  
+  Serial.begin(9600);
+  for (int thisNote = 0; jb[thisNote] !=-1; thisNote++) {
+
+   int jbd = jbs*jbDur[thisNote];
+   int num = 0.95;
+
+   tone(3, jb[thisNote],jbd*num);
+   Serial.println(jb[thisNote]);
+
+   delay(jb);
+
+   noTone(3);
+
+  }
+
+  delay(150);
+  lcd.clear();
+  delay(100);
+  lcd.setCursor(0,0);
+
+
+}else{
+
+if (fvState == LOW){
+ //christmas screen
+  lcd.setCursor(0,0);
+  lcd.print("Silent Night");
+
+ Serial.begin(9600);
+  for (int thisNote = 0; sn[thisNote] !=-1; thisNote++) {
+
+   int snd = sns*snDur[thisNote];
+   int num = 0.95;
+
+   tone(3, sn[thisNote],snd*num);
+   Serial.println(sn[thisNote]);
+
+   delay(sn);
+
+   noTone(3);
+
+  }
+
+
+  delay(150);
+  lcd.clear();
+  delay(100);
+  lcd.setCursor(0,0);
+
+
+}else{
+
+if (sixState == LOW){
+ //christmas screen
+  lcd.setCursor(0,0);
+  lcd.print("We Wish You a Merry Christmas");
+
+ Serial.begin(9600);
+  for (int thisNote = 0; wwu[thisNote] !=-1; thisNote++) {
+
+   int wwud = wwus*wwuDur[thisNote];
+   int num = 0.95;
+
+   tone(3, wwu[thisNote],wwud*num);
+   Serial.println(wwu[thisNote]);
+
+   delay(wwu);
+
+   noTone(3);
+
+  }
+
+  delay(150);
+  lcd.clear();
+  delay(100);
+  lcd.setCursor(0,0);
+
+
+}else{
+
+
+  //christmas screen
+  lcd.setCursor(0,0);
+  lcd.print("Christmas:");
+  lcd.setCursor(0,1);
+  lcd.print("1. Jingle Bells");
+  lcd.setCursor(0,2);
+  lcd.print("2. Silent Nt. 3. ???");
+  delay(150);
+  lcd.clear();
+  delay(100);
+  lcd.setCursor(0,0);
+
+
+} 
+}
+} 
+
+ 
+} else {
+  
+  
+  if (twoState == LOW)
+  {
+    
+    if (frState == LOW){
+ //christmas screen
+  lcd.setCursor(0,0);
+  lcd.print("This Little Light of Mine");
+
+Serial.begin(9600);
+  for (int thisNote = 0; tll[thisNote] !=-1; thisNote++) {
+
+   int tlld = tlls*tllDur[thisNote];
+   int num = 0.95;
+
+   tone(3, tll[thisNote],tlld*num);
+   Serial.println(tll[thisNote]);
+
+   delay(tll);
+
+   noTone(3);
+
+  }
+
+  delay(150);
+  lcd.clear();
+  delay(100);
+  lcd.setCursor(0,0);
+
+
+}else{
+
+if (fvState == LOW){
+ //christmas screen
+  lcd.setCursor(0,0);
+  lcd.print("Oceans");
+ Serial.begin(9600);
+  for (int thisNote = 0; o[thisNote] !=-1; thisNote++) {
+
+   int od = os*oDur[thisNote];
+   int num = 0.95;
+
+   tone(3, o[thisNote],od*num);
+   Serial.println(o[thisNote]);
+
+   delay(o);
+
+   noTone(3);
+
+  }
+
+  delay(150);
+  lcd.clear();
+  delay(100);
+  lcd.setCursor(0,0);
+
+
+}else{
+
+if (sixState == LOW){
+ //christmas screen
+  lcd.setCursor(0,0);
+  lcd.print("Amazing Grace");
+
+Serial.begin(9600);
+  for (int thisNote = 0; ag[thisNote] !=-1; thisNote++) {
+
+   int agd = ags*agDur[thisNote];
+   int num = 0.95;
+
+   tone(3, ag[thisNote],agd*num);
+   Serial.println(ag[thisNote]);
+
+   delay(ag);
+
+   noTone(3);
+
+  }
+
+  delay(150);
+  lcd.clear();
+  delay(100);
+  lcd.setCursor(0,0);
+
+
+}else{
+   
+   //Christian Screen
+   lcd.setCursor(0,0);
+   lcd.print("Christan/Worship:");
+   lcd.setCursor(0,1);
+   lcd.print("1. This Little Light");
+   lcd.setCursor(0,2);
+   lcd.print("2. Oceans  3. ???");
+   delay(150);
+   lcd.clear();
+   delay(100);
+   lcd.setCursor(0,0);
+   }
+            
+}
+}
+    
+  }else{
+
+    if (thrState == LOW){
+      
+if (frState == LOW){
+ //christmas screen
+  lcd.setCursor(0,0);
+  lcd.print("Hakuna Matata");
+
+Serial.begin(9600);
+  for (int thisNote = 0; hm[thisNote] !=-1; thisNote++) {
+
+   int hmd = hms*hmDur[thisNote];
+   int num = 0.95;
+
+   tone(3, hm[thisNote],hmd*num);
+   Serial.println(hm[thisNote]);
+
+   delay(o);
+
+   noTone(3);
+
+  }
+
+  delay(150);
+  lcd.clear();
+  delay(100);
+  lcd.setCursor(0,0);
+
+
+}else{
+
+if (fvState == LOW){
+ //christmas screen
+  lcd.setCursor(0,0);
+  lcd.print("Let it Go");
+
+Serial.begin(9600);
+  for (int thisNote = 0; lit[thisNote] !=-1; thisNote++) {
+
+   int litd = lits*litDur[thisNote];
+   int num = 0.95;
+
+   tone(3, lit[thisNote],litd*num);
+   Serial.println(lit[thisNote]);
+
+   delay(lit);
+
+   noTone(3);
+
+  }
+
+  delay(150);
+  lcd.clear();
+  delay(100);
+  lcd.setCursor(0,0);
+
+
+}else{
+
+if (sixState == LOW){
+ //bog screen
+  lcd.setCursor(0,0);
+  lcd.print("Be Our Guest");
+
+Serial.begin(9600);
+  for (int thisNote = 0; bog[thisNote] !=-1; thisNote++) {
+
+   int bogd = bogs*bogDur[thisNote];
+   int num = 0.95;
+
+   tone(3, bog[thisNote],bogd*num);
+   Serial.println(bog[thisNote]);
+
+   delay(bog);
+
+   noTone(3);
+
+  }
+
+  delay(150);
+  lcd.clear();
+  delay(100);
+  lcd.setCursor(0,0);
+
+
+}else{
+      //disney screen
+       lcd.setCursor(0,0);
+       lcd.print("Disney:");
+       lcd.setCursor(0,1);
+       lcd.print("1. Hakuna Matata");
+       lcd.setCursor(0,2);
+        lcd.print("2. Let It Go  3. ???");
+       delay(150);
+        lcd.clear();
+       delay(100);
+       lcd.setCursor(0,0);
+}
+}
+}
+
+    }else{
+
+      //general screen
+      lcd.setCursor(0,0);
+      lcd.print("Pick a Genre:");
+      lcd.setCursor(0,1);
+      lcd.print("1. Christmas");
+      lcd.setCursor(0,2);
+      lcd.print("2. Worship 3. Disney");
+      delay(150);
+      lcd.clear();
+      delay(10);
+      lcd.setCursor(0,0);
+    }
+  }
+}
+}
